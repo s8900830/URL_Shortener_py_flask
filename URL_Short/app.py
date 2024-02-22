@@ -23,8 +23,9 @@ def create_url():
     sec = 1800
     # 先取得 POST 資料
     if request.method == 'POST':
-        l_url = request.values['url']
-        expireAt = request.values['expireAt']
+        data = request.json
+        l_url = data.get('url')
+        expireAt = data.get('expireAt')
         expire_time = datetime.strptime(
             expireAt, "%Y-%m-%dT%H:%M:%S%z")
 
@@ -46,6 +47,8 @@ def create_url():
         get_db = ShortCut.query.filter_by(l_url=l_url).first()
 
         if get_db:
+            redis_client.set(get_db.s_url, l_url, ex=sec)
+            redis_client.set(l_url, get_db.s_url, ex=sec)
             get_db.expire_at = expire_time
             get_db.delete = False
             db.session.commit()
@@ -79,9 +82,9 @@ def delete_url(s_url):
 
     get_db.delete = True
     db.session.commit()
-
+    l_url = redis_client.get(s_url)
     redis_client.delete(s_url)
-
+    redis_client.delete(l_url)
     return 'Success'
 
 
