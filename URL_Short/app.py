@@ -97,8 +97,9 @@ def redirect_url(s_url):
 
     get_db = ShortCut.query.filter_by(s_url=s_url).filter_by(
         delete=False).order_by(ShortCut.expire_at.desc()).first()
-    if get_db.expire_at > datetime.now() and get_db:
-        return redirect(get_db.l_url)
+    if get_db:
+        if get_db.expire_at > datetime.now():
+            return redirect(get_db.l_url)
     return jsonify(
         message='No ShortUrl Found'
     )
