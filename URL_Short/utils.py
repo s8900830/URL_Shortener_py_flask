@@ -1,5 +1,12 @@
+from flask import Flask
+from flask_redis import FlaskRedis
+from configs import Config
+from datetime import datetime
 import random
 
+app = Flask(__name__)
+app.config.from_object(Config)
+redis_client = FlaskRedis(app)
 
 class mainfunction:
 
@@ -10,10 +17,26 @@ class mainfunction:
                     'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
                     'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
                     'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-        test = random.choices(to62list, k=num)
+        random_num = random.choices(to62list, k=num)
 
-        return ''.join(test)
-
+        return ''.join(random_num)
 
 if __name__ == "__main__":
     print(mainfunction.code(10))
+
+class redis_utils:
+    def create(url,expire_at):
+        set_url = mainfunction.code(15)
+        expire_time = datetime.strptime(
+            expire_at, "%Y-%m-%dT%H:%M:%S%z")
+        remain_time = (
+            expire_time - datetime.now(expire_time.tzinfo))
+        redis_client.set(set_url, url,  ex=remain_time)
+        return set_url
+        
+    def get(url_id):
+        return redis_client.get(url_id)
+    
+    def delete(url_id):
+        redis_client.delete(url_id)
+        return 'Success'
