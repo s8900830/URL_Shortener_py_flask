@@ -25,13 +25,13 @@ if __name__ == "__main__":
     print(mainfunction.code(10))
 
 class redis_utils:
-    def create(url,expire_at):
+    def create(url,sec):
         set_url = mainfunction.code(15)
-        expire_time = datetime.strptime(
-            expire_at, "%Y-%m-%dT%H:%M:%S%z")
-        remain_time = (
-            expire_time - datetime.now(expire_time.tzinfo))
-        redis_client.set(set_url, url,  ex=remain_time)
+
+        # remain_time = (
+        #     expire_time - datetime.now(expire_time.tzinfo))
+        
+        redis_client.set(set_url, url,  sec=sec)
         return set_url
         
     def get(url_id):
