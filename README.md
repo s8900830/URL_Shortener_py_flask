@@ -1,6 +1,13 @@
 # 短網址
-利用 Falsk、Redis、MySQL
+利用 Flask、Redis、MySQL
 透過 RestFulAPI 的方式實現建立短網址、刪除、轉址的功能
+
+# 部屬方式
+1. 直接使用
+
+2. Docker
+
+3. Docker Compose
 
 # Demo
 1. Create
