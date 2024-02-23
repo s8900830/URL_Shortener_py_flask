@@ -12,6 +12,8 @@ app.config.from_object(Config)
 redis_client = FlaskRedis(app)
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
 
 @app.route("/")
 def hello():
