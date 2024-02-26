@@ -4,6 +4,7 @@
 
 # 部屬方式
 1. 直接使用
+   
    port預設為5000
    
    ```bash
@@ -11,6 +12,7 @@
    ```
    
 3. Docker Compose
+   
    透過docker-compose.yml的設定
    
    已經把flask從port 5000轉發到port 80上
