@@ -4,16 +4,22 @@
 
 # 部屬方式
 1. 直接使用
+   port預設為5000
+   
    ```bash
    py ./app.py
-
-   port預設為5000
-2. Docker Compose
+   ```
+   
+3. Docker Compose
+   透過docker-compose.yml的設定
+   
+   已經把flask從port 5000轉發到port 80上
+   
    ```bash
    docker compose up
+   ```
+   
 
-   透過docker-compose.yml的設定
-   已經把flask從port 5000轉發到port 80上
    
 # Demo
 1. Create
